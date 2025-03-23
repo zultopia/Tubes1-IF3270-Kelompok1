@@ -30,23 +30,21 @@ class Activation:
     
     @staticmethod
     def tanh(x): 
-        # TODO
-        return
+        return np.tanh(x)
     
     @staticmethod
     def d_tanh(x): 
-        # TODO
-        return
+        return 1 - np.tanh(x) ** 2
     
     @staticmethod
     def softmax(x):
-        # TODO
-        return
+        exp_x = np.exp(x - np.max(x, axis=1, keepdims=True))
+        return exp_x / np.sum(exp_x, axis=1, keepdims=True)
     
     @staticmethod
     def d_softmax(x):
-        # TODO
-        return
+        s = Activation.softmax(x)
+        return s * (1 - s)
 
 class Loss:
     @staticmethod
@@ -90,8 +88,9 @@ class Initializer:
     
     @staticmethod
     def normal(shape, mean=0.0, variance=0.1, seed=None):
-        # TODO
-        return
+        if seed:
+            np.random.seed(seed)
+        return np.random.normal(mean, np.sqrt(variance), shape)
 
 class FFNN:
     def __init__(self, layers, activations, loss, init_method='uniform', **init_params):
@@ -248,13 +247,26 @@ class FFNN:
         plt.show()
     
     def save_model(self, filename):
-        # TODO
-        return
+        model_data = {
+            'weights': self.weights,
+            'biases': self.biases,
+            'layers': self.layers,
+            'activations': [act.__name__ for act in self.activations],
+            'loss': self.loss.__name__
+        }
+        np.savez(filename, **model_data)
     
     @staticmethod
     def load_model(filename):
-        # TODO
-        return
+        data = np.load(filename, allow_pickle=True)
+        ffnn = FFNN(
+            layers=data['layers'], 
+            activations=data['activations'], 
+            loss=data['loss']
+        )
+        ffnn.weights = list(data['weights'])
+        ffnn.biases = list(data['biases'])
+        return ffnn
 
 if __name__ == "__main__":
     X_train = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
