@@ -92,6 +92,20 @@ class Initializer:
             np.random.seed(seed)
         return np.random.normal(mean, np.sqrt(variance), shape)
 
+    @staticmethod
+    def xavier(shape, seed=None):
+        if seed:
+            np.random.seed(seed)
+        d = np.sqrt(6 / (shape[0] + shape[1]))
+        return np.random.uniform(-d, d, shape)
+    
+    @staticmethod
+    def he(shape, seed=None):
+        if seed:
+            np.random.seed(seed)
+        d = np.sqrt(2 / shape[0])
+        return np.random.normal(0, d, shape)
+
 class FFNN:
     def __init__(self, layers, activations, loss, init_method='uniform', **init_params):
         self.layers = layers
