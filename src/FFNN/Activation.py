@@ -51,3 +51,29 @@ class Activation:
 
         return jacobian
 
+    @staticmethod
+    def leaky_relu(x, alpha=0.01): 
+        return np.maximum(alpha * x, x)
+    
+    @staticmethod
+    def d_leaky_relu(x, alpha=0.01): 
+        dx = np.ones_like(x)
+        dx[x < 0] = alpha
+        return dx
+    
+    @staticmethod
+    def elu(x, alpha=1.0): 
+        return np.where(x > 0, x, alpha * (np.exp(x) - 1))
+    
+    @staticmethod
+    def d_elu(x, alpha=1.0): 
+        return np.where(x > 0, 1, alpha * np.exp(x))
+    
+    @staticmethod
+    def swish(x, beta=1.0): 
+        return x * Activation.sigmoid(beta * x)
+    
+    @staticmethod
+    def d_swish(x, beta=1.0): 
+        sigmoid_val = Activation.sigmoid(beta * x)
+        return beta * sigmoid_val + x * beta * sigmoid_val * (1 - sigmoid_val)
