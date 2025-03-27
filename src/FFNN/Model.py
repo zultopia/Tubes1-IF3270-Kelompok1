@@ -6,6 +6,7 @@ from sklearn.preprocessing import OneHotEncoder
 import dash
 import dash_cytoscape as cyto
 from dash import html
+import pickle
 
 from FFNN.Activation import Activation
 from FFNN.Loss import Loss
@@ -240,25 +241,18 @@ class FFNN:
         plt.xlabel("Gradient Values")
         plt.ylabel("Frequency")
         plt.show()
-    
+
     def save_model(self, filename):
-        model_data = {
-            'weights': self.weights,
-            'biases': self.biases,
-            'layers': self.layers,
-            'activations': [act.__name__ for act in self.activations],
-            'loss': self.loss.__name__
-        }
-        np.savez(filename, **model_data)
-    
+        with open(filename, 'wb') as f:
+            pickle.dump(self.__dict__, f)
+
     @staticmethod
     def load_model(filename):
-        data = np.load(filename, allow_pickle=True)
-        ffnn = FFNN(
-            layers=data['layers'], 
-            activations=data['activations'], 
-            loss=data['loss']
-        )
-        ffnn.weights = list(data['weights'])
-        ffnn.biases = list(data['biases'])
+        with open(filename, 'rb') as f:
+            data = pickle.load(f)
+
+        ffnn = FFNN.__new__(FFNN)  
+        ffnn.__dict__.update(data)
+        
         return ffnn
+    
