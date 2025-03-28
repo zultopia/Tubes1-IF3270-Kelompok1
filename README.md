@@ -67,6 +67,9 @@ Tujuan utama dari proyek ini adalah mengembangkan pemahaman mendalam tentang ars
   - Sigmoid
   - Hyperbolic Tangent (tanh)
   - Softmax
+  - **Leaky ReLU** *(Bonus)*
+  - **ELU** *(Bonus)*
+  - **Swish** *(Bonus)*
 - Mendukung berbagai **fungsi loss**:
   - Mean Squared Error (MSE)
   - Binary Cross-Entropy
@@ -75,6 +78,16 @@ Tujuan utama dari proyek ini adalah mengembangkan pemahaman mendalam tentang ars
   - Zero Initialization
   - Random Uniform Distribution
   - Random Normal Distribution
+  - **Xavier Initialization** *(Bonus)*
+  - **He Initialization** *(Bonus)*
+- **Regularisasi** *(Bonus)*:
+  - Implementasi metode **L1 dan L2 Regularization**.
+  - Eksperimen dengan model tanpa regularisasi, dengan L1, dan dengan L2.
+  - Analisis perbandingan hasil prediksi, grafik loss pelatihan, serta distribusi bobot dan gradien bobot.
+- **Normalisasi** *(Bonus)*:
+  - Implementasi metode **RMSNorm**.
+  - Eksperimen dengan model tanpa normalisasi dan dengan normalisasi.
+  - Analisis perbandingan hasil prediksi, grafik loss pelatihan, serta distribusi bobot dan gradien bobot.
 
 ---
 
@@ -189,9 +202,9 @@ print(f'Accuracy: {accuracy}')
 
 | Team Member | Responsibilities |
 |-------------|----------------|
-| **Naufal Adnan** | - Setup inputan jumlah neuron <br> - Implementasi fungsi aktivasi Linear, ReLU <br> - Implementasi Loss Function Binary Cross Entropy & Categorical Cross Entropy <br> - Implementasi method untuk menampilkan model berupa struktur jaringan beserta bobot dan gradien bobot tiap neuron dalam bentuk graf <br> - Instance model yang diinisialisasikan harus bisa menyimpan bobot & harus bisa menyimpan gradien bobot <br> - Implementasi forward propagation dengan batch input <br> - Implementasi turunan pertama fungsi aktivasi dan fungsi loss terhadap bobot <br> - Implementasi proses pelatihan dengan batch size, learning rate, jumlah epoch, dan verbose <br> - Mengembalikan histori pelatihan (training loss & validation loss) <br> - Implementasi FFNN dengan menggunakan automatic differentiation <br> - Implementasi metode regularisasi L1 dan L2 <br> **Pengujian:** <br> - Pengaruh depth dan width <br> - Pengaruh fungsi aktivasi <br> - **Laporan** |
-| **Ahmad Mudabbir Arif** | - Implementasi fungsi aktivasi Sigmoid & Hyperbolic <br> - Implementasi Loss Function MSE <br> - Implementasi method untuk menampilkan distribusi bobot dari tiap layer <br> - Implementasi method untuk menampilkan distribusi gradien bobot dari tiap layer <br> - Instance model yang diinisialisasikan harus bisa menyimpan bobot & harus bisa menyimpan gradien bobot <br> - Implementasi weight update dengan gradient descent <br> - Implementasi turunan pertama fungsi aktivasi dan fungsi loss terhadap bobot <br> - Implementasi proses pelatihan dengan batch size, learning rate, jumlah epoch, dan verbose <br> - Mengembalikan histori pelatihan (training loss & validation loss) <br> - Implementasi 2 metode inisialisasi bobot <br> - Implementasi metode normalisasi RMSNorm <br> **Pengujian:** <br> - Pengaruh learning rate <br> - Pengaruh inisialisasi bobot <br> - **Laporan** |
-| **Marzuli Suhada M** | - Implementasi fungsi aktivasi Softmax <br> - Implementasi inisialisasi bobot untuk Zero Initialization, Random Uniform, Random Normal <br> - Implementasi method untuk save dan load <br> - Instance model yang diinisialisasikan harus bisa menyimpan bobot & harus bisa menyimpan gradien bobot <br> - Implementasi backward propagation dengan chain rule untuk menghitung gradien <br> - Implementasi turunan pertama fungsi aktivasi dan fungsi loss terhadap bobot <br> - Implementasi proses pelatihan dengan batch size, learning rate, jumlah epoch, dan verbose <br> - Mengembalikan histori pelatihan (training loss & validation loss) <br> - Implementasi minimal 2 fungsi aktivasi lain yang sering digunakan <br> **Pengujian:** <br> - Pengaruh regularisasi (jika mengerjakan) <br> - Pengaruh normalisasi RMSNorm (jika mengerjakan) <br> - Perbandingan dengan library Sklearn <br> - **Laporan** |
+| **Naufal Adnan** | **Implementasi:** <br> - Setup inputan jumlah neuron <br> - Implementasi fungsi aktivasi dan turunan Linear, ReLU <br> - Implementasi Loss Function dan turunan Binary Cross Entropy & Categorical Cross Entropy <br> - Implementasi method untuk menampilkan model berupa struktur jaringan beserta bobot dan gradien bobot tiap neuron dalam bentuk graf <br> - Instance model yang diinisialisasikan harus bisa menyimpan bobot & harus bisa menyimpan gradien bobot <br> - Implementasi forward propagation dengan batch input <br> - Implementasi proses pelatihan dengan batch size, learning rate, jumlah epoch, dan verbose <br> - Mengembalikan histori pelatihan (training loss & validation loss) <br> - Implementasi metode regularisasi L1 dan L2 <br> - Implementasi metode normalisasi RMSNorm <br> **Pengujian:** <br> - Pengaruh depth dan width <br> - Pengaruh fungsi aktivasi <br> **Laporan** |
+| **Ahmad Mudabbir Arif** | **Implementasi:** <br> - Implementasi fungsi aktivasi dan turunan Sigmoid & Hyperbolic <br> - Implementasi Loss Function dan turunan MSE <br> - Implementasi method untuk menampilkan distribusi bobot dari tiap layer <br> - Implementasi method untuk menampilkan distribusi gradien bobot dari tiap layer <br> - Instance model yang diinisialisasikan harus bisa menyimpan bobot & harus bisa menyimpan gradien bobot <br> - Implementasi weight update dengan gradient descent <br> - Implementasi proses pelatihan dengan batch size, learning rate, jumlah epoch, dan verbose <br> - Mengembalikan histori pelatihan (training loss & validation loss) <br> - Implementasi 2 metode inisialisasi bobot *(Bonus)* <br> **Pengujian:** <br> - Pengaruh learning rate <br> - Pengaruh inisialisasi bobot <br> **Laporan** |
+| **Marzuli Suhada M** | **Implementasi:** <br> - Implementasi fungsi aktivasi dan turunan Softmax <br> - Implementasi inisialisasi bobot untuk Zero Initialization, Random Uniform, Random Normal <br> - Implementasi method untuk save dan load <br> - Instance model yang diinisialisasikan harus bisa menyimpan bobot & harus bisa menyimpan gradien bobot <br> - Implementasi backward propagation dengan chain rule untuk menghitung gradien <br> - Implementasi proses pelatihan dengan batch size, learning rate, jumlah epoch, dan verbose <br> - Mengembalikan histori pelatihan (training loss & validation loss) <br> - Implementasi minimal 2 fungsi aktivasi lain yang sering digunakan <br> **Pengujian:** <br> - Pengaruh regularisasi (jika mengerjakan) <br> - Pengaruh normalisasi RMSNorm (jika mengerjakan) <br> - Perbandingan dengan library Sklearn <br> **Laporan** |
 
 ---
 
