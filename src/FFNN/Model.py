@@ -111,14 +111,24 @@ class FFNN:
             self.weights[i] -= lr * self.d_weights[i]
             self.biases[i] -= lr * self.d_biases[i]
     
-    def train(self, X_train, y_train, epochs, lr, batch_size=200, verbose=1):
-        history = []
+    def train(self, X_train, y_train, X_test, y_test, epochs, lr, batch_size=200, verbose=1):
+        training_loss = []
+        validation_loss = []
         batch_size = min(batch_size, len(X_train))
 
         if isinstance(y_train, np.ndarray) is False:
             y_train = y_train.to_numpy()
         if isinstance(X_train, np.ndarray) is False:
             X_train = X_train.to_numpy()
+
+        if X_test is not None and y_test is not None:
+            if not isinstance(y_test, np.ndarray):
+                y_test = y_test.to_numpy()
+            if not isinstance(X_test, np.ndarray):
+                X_test = X_test.to_numpy()
+            if y_test.ndim == 1 or y_test.shape[1] == 1:
+                encoder = OneHotEncoder(sparse_output=False)
+                y_test = encoder.fit_transform(y_test.reshape(-1, 1))
 
         if y_train.ndim == 1 or y_train.shape[1] == 1:
             encoder = OneHotEncoder(sparse_output=False)
@@ -133,13 +143,21 @@ class FFNN:
                 self.backward(X_batch, y_batch)
                 self.update_weights(lr)
 
-            loss = self.loss(y_train, self.forward(X_train))
-            history.append(loss)
+            t_loss = self.loss(y_train, self.forward(X_train))
+            training_loss.append(t_loss)
 
-            if verbose and (epochs >= 10) and (epoch+1) % max(1, epochs//10) == 0:
-                print(f"Epoch {epoch+1}/{epochs}, Loss: {loss}")
+            if (verbose):
+                print(f"[Epoch ({epoch+1}|{epochs})] Training Loss: {t_loss}", end="")
 
-        return history
+                if X_test is not None and y_test is not None:
+                    v_loss = self.loss(y_test, self.forward(X_test))
+                    validation_loss.append(v_loss)
+                    print(f" - Validation Loss: {v_loss}")
+
+        if X_test is not None and y_test is not None:
+            return training_loss, validation_loss
+        
+        return training_loss
     
     def predict(self, X):
         if isinstance(X, np.ndarray) is False:
@@ -245,6 +263,7 @@ class FFNN:
     def save_model(self, filename):
         with open(filename, 'wb') as f:
             pickle.dump(self.__dict__, f)
+        print("Model saved successfully...")
 
     @staticmethod
     def load_model(filename):
@@ -254,5 +273,6 @@ class FFNN:
         ffnn = FFNN.__new__(FFNN)  
         ffnn.__dict__.update(data)
         
+        print("Model loaded successfully...")
         return ffnn
     
