@@ -3,3 +3,5 @@ scikit-learn
 matplotlib
 dash
 dash-cytoscape
+networkx
+pickle5

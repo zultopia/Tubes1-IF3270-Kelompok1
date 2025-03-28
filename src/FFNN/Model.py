@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import networkx as nx
-import numpy as np
 from sklearn.preprocessing import OneHotEncoder
 import dash
 import dash_cytoscape as cyto
